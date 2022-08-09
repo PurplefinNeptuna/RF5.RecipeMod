@@ -2,7 +2,8 @@
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
 using HarmonyLib;
-using RF5.RecipeMod.Patches;
+using RF5.RecipeMod.Patch;
+using RF5.RecipeMod.Recipe;
 using System.IO;
 using System.Reflection;
 
@@ -22,8 +23,7 @@ namespace RF5.RecipeMod {
 			// Plugin startup logic
 			log.LogInfo($"Plugin {GUID} is loaded!");
 
-			RecipePatcher.InitRecipes();
-			RecipePatcher.CreateRecipes();
+			RecipeLoader.Instance.LoadRecipes();
 
 			Harmony.CreateAndPatchAll(typeof(SVPatcher));
 			Harmony.CreateAndPatchAll(typeof(RecipePatcher));

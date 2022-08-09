@@ -1,24 +1,23 @@
 ﻿using HarmonyLib;
+using RF5.RecipeMod.Recipe;
 using System.Collections.Generic;
 using System.Linq;
 using UnhollowerBaseLib;
 using UnityEngine;
 
-namespace RF5.RecipeMod.Patches {
+namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
 	internal class CategoryPatcher {
 		//private static List<int> patchedSize = new();
 		public static bool categoryPatched = false;
 
-		public static Dictionary<CraftCategoryId, List<RecipeDataTableArray.RecipeDataTable>> NewRecipeCategory => RecipePatcher.newRecipeCategory;
-
-		public static bool SameSize(List<int> origSize, List<int> patchSize) {
-			if (origSize.Count != patchSize.Count) return false;
-			for (int i = 0; i < origSize.Count; i++) {
-				if (origSize[i] != patchSize[i]) return false;
-			}
-			return true;
-		}
+		//public static bool SameSize(List<int> origSize, List<int> patchSize) {
+		//	if (origSize.Count != patchSize.Count) return false;
+		//	for (int i = 0; i < origSize.Count; i++) {
+		//		if (origSize[i] != patchSize[i]) return false;
+		//	}
+		//	return true;
+		//}
 
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.CraftCategoryData), MethodType.Getter)]
 		[HarmonyPostfix]
@@ -31,11 +30,12 @@ namespace RF5.RecipeMod.Patches {
 			Plugin.log.LogInfo($"Patching Category Recipes");
 			categoryPatched = true;
 
+			var loadedRecipes = RecipeLoader.Instance;
 			var newSize = new List<int>(originalSize);
 
 			//insert new recipe to categories
 			for (var i = CraftCategoryId.EMPTY; i < CraftCategoryId.Max; i++) {
-				newSize[(int)i] += NewRecipeCategory[i].Count;
+				newSize[(int)i] += loadedRecipes.newRecipeCategory[i].Count;
 			}
 
 			var newTable = ScriptableObject.CreateInstance<CraftCategoryDataTable>();
@@ -52,8 +52,8 @@ namespace RF5.RecipeMod.Patches {
 					}
 
 					//insert the new recipes here
-					for (int k = 0; k < NewRecipeCategory[(CraftCategoryId)i].Count; k++) {
-						newCategoryRecipes[originalSize[i] + k] = NewRecipeCategory[(CraftCategoryId)i][k].id;
+					for (int k = 0; k < loadedRecipes.newRecipeCategory[(CraftCategoryId)i].Count; k++) {
+						newCategoryRecipes[originalSize[i] + k] = loadedRecipes.newRecipeCategory[(CraftCategoryId)i][k].id;
 					}
 
 					CraftCategoryDataTable.CraftCategoryData newCategory = new();

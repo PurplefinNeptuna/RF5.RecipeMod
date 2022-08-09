@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using RF5.RecipeMod.Recipe;
 using SaveData;
+using System.Linq;
 using UnhollowerBaseLib;
-using UnityEngine;
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
@@ -13,32 +13,23 @@ namespace RF5.RecipeMod.Patch {
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.RecipeData), MethodType.Getter)]
 		[HarmonyPostfix]
 		public static void AddRecipe(UIRes __instance, ref RecipeDataTableArray __result) {
-			var originalSize = __result.RecipeDatas.Length;
 			//if (originalSize == patchedSize) {
 			if (recipePatched) {
+				//Plugin.log.LogInfo($"Recipe already patched, Length: {__result.RecipeDatas.Length}");
 				return;
 			}
 			Plugin.log.LogInfo($"Patching Recipes");
 			recipePatched = true;
 
 			var loadedRecipes = RecipeLoader.Instance;
-			var newTable = ScriptableObject.CreateInstance<RecipeDataTableArray>();
 
-			//update recipe data
-			var newRecipeData = new Il2CppReferenceArray<RecipeDataTableArray.RecipeDataTable>(originalSize + loadedRecipes.newRecipes.Count);
-			for (int i = 0; i < originalSize; i++) {
-				newRecipeData[i] = __result.RecipeDatas[i];
-			}
+			Plugin.log.LogInfo($"Before Patch Recipes {__result.RecipeDatas.Length}");
 
-			//insert new recipe here
-			for (int i = originalSize; i < originalSize + loadedRecipes.newRecipes.Count; i++) {
-				newRecipeData[originalSize] = loadedRecipes.newRecipes[i - originalSize];
-			}
+			__result.RecipeDatas = __result.RecipeDatas.Concat(loadedRecipes.newRecipes).ToArray();
 
-			newTable.RecipeDatas = newRecipeData;
+			Plugin.log.LogInfo($"After Patch Recipes {__result.RecipeDatas.Length}");
 
-			__result = newTable;
-			__instance._RecipeData = newTable;
+			__instance._RecipeData = __result;
 
 			//patchedSize = originalSize + newRecipes.Count;
 		}

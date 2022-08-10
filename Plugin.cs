@@ -16,8 +16,8 @@ namespace RF5.RecipeMod {
 		public const string VERSION = "1.0.0";
 
 		internal static ManualLogSource log;
+		internal static string FILEPATH = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-		public static string FILEPATH = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 		public override void Load() {
 			log = Log;
 			// Plugin startup logic

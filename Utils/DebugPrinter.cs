@@ -4,10 +4,8 @@ using System.Linq;
 namespace RF5.RecipeMod.Utils {
 	internal static class DebugPrinter {
 
-		public static string FILEPATH => Plugin.FILEPATH;
-
 		public static void PrintRecipes(RecipeDataTableArray recipeDataTableArray, string name = "RecipeTable") {
-			var fileName = Path.Combine(FILEPATH, $"{name}.txt");
+			var fileName = Path.Combine(Plugin.FILEPATH, $"{name}.txt");
 
 			using (StreamWriter sw = new(fileName, false)) {
 				foreach (var (recipeData, i) in recipeDataTableArray.RecipeDatas.Select((v, k) => (v, k))) {
@@ -28,7 +26,7 @@ namespace RF5.RecipeMod.Utils {
 		}
 
 		public static void PrintCraftCategories(CraftCategoryDataTable craftCategoryDataTable, string name = "CraftCategoryTable") {
-			var fileName = Path.Combine(FILEPATH, $"{name}.txt");
+			var fileName = Path.Combine(Plugin.FILEPATH, $"{name}.txt");
 
 			using (StreamWriter sw = new(fileName, false)) {
 				foreach (var (categoryData, i) in craftCategoryDataTable.CraftCategoryDatas.Select((v, k) => (v, k))) {

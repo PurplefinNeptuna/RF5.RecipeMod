@@ -20,19 +20,19 @@ namespace RF5.RecipeMod.Recipe {
 		public int currentRecipeIndex;
 
 		public List<RecipeDataTableArray.RecipeDataTable> newRecipes;
-		public Dictionary<CraftCategoryId, List<RecipeDataTableArray.RecipeDataTable>> newRecipeCategory;
+		public Dictionary<CraftCategoryId, List<RecipeId>> newRecipeCategories;
 
 		private RecipeLoader() {
 			currentRecipeIndex = startRecipeIndex;
 			newRecipes = new();
-			newRecipeCategory = new();
+			newRecipeCategories = new();
 			for (var i = CraftCategoryId.EMPTY; i < CraftCategoryId.Max; i++) {
-				newRecipeCategory.Add(i, new List<RecipeDataTableArray.RecipeDataTable>());
+				newRecipeCategories.Add(i, new List<RecipeId>());
 			}
 		}
 
 		public void LoadRecipes() {
-			//new recipe here
+			//new recipe here, could use some kind of file reader later
 			RecipeDataTableArray.RecipeDataTable newRecipe = new();
 			newRecipe.categoryId = CraftCategoryId.FarmTool;
 			newRecipe.id = (RecipeId)currentRecipeIndex;
@@ -44,8 +44,11 @@ namespace RF5.RecipeMod.Recipe {
 						ItemID.Item_Kuzutetsu
 				};
 
+			//add the recipe to collections
 			newRecipes.Add(newRecipe);
-			newRecipeCategory[newRecipe.categoryId].Add(newRecipe);
+			newRecipeCategories[newRecipe.categoryId].Add(newRecipe.id);
+
+			//additional checking for FarmTools
 
 			currentRecipeIndex++;
 		}

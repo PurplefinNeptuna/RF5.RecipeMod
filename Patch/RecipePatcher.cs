@@ -2,7 +2,6 @@
 using RF5.RecipeMod.Recipe;
 using SaveData;
 using System.Linq;
-using UnhollowerBaseLib;
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
@@ -19,44 +18,21 @@ namespace RF5.RecipeMod.Patch {
 			}
 
 			if (recipePatched) {
-				Plugin.log.LogError($"Recipe already patched\nLength: {__result.RecipeDatas.Length}\nShould be: {patchedSize}");
+				Plugin.log.LogError($"Recipe already patched\nLength: {originalSize}\nShould be: {patchedSize}");
 			}
 
-			Plugin.log.LogInfo($"Patching Recipes");
+			Plugin.log.LogInfo($"Patching recipes");
 			recipePatched = true;
 
-			var loadedRecipes = RecipeLoader.Instance;
+			Plugin.log.LogInfo($"Before patch total {originalSize} recipes");
 
-			Plugin.log.LogInfo($"Before Patch Recipes {originalSize}");
+			__result.RecipeDatas = __result.RecipeDatas.Concat(RecipeLoader.Instance.newRecipes).ToArray();
 
-			__result.RecipeDatas = __result.RecipeDatas.Concat(loadedRecipes.newRecipes).ToArray();
-
-			Plugin.log.LogInfo($"After Patch Recipes {__result.RecipeDatas.Length}");
+			Plugin.log.LogInfo($"After patch total {__result.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custome recipes added)");
 
 			__instance._RecipeData = __result;
 
 			patchedSize = __result.RecipeDatas.Length;
-		}
-
-		[HarmonyPatch(typeof(RF5ItemFlagData), nameof(RF5ItemFlagData.CheckRecipeRelease))]
-		[HarmonyPrefix]
-		public static bool CheckRelease(RecipeRelease recipeId, ref bool __result) {
-			if ((int)recipeId >= RecipeLoader.Instance.startRecipeIndex) {
-				Plugin.log.LogInfo($"Skipped Check for {(int)recipeId}");
-				__result = true;
-				return false;
-			}
-			return true;
-		}
-
-		[HarmonyPatch(typeof(RF5ItemFlagData), nameof(RF5ItemFlagData.SetRecipeRelease))]
-		[HarmonyPrefix]
-		public static bool SetRelease(RecipeRelease recipeId) {
-			if ((int)recipeId >= RecipeLoader.Instance.startRecipeIndex) {
-				Plugin.log.LogInfo($"Skipped Set for {(int)recipeId}");
-				return false;
-			}
-			return true;
 		}
 	}
 }

@@ -21,11 +21,13 @@ namespace RF5.RecipeMod.Recipe {
 
 		public List<RecipeDataTableArray.RecipeDataTable> newRecipes;
 		public Dictionary<CraftCategoryId, List<RecipeId>> newRecipeCategories;
+		public List<ItemID> newFarmRecipeIds;
 
 		private RecipeLoader() {
 			currentRecipeIndex = startRecipeIndex;
 			newRecipes = new();
 			newRecipeCategories = new();
+			newFarmRecipeIds = new();
 			for (var i = CraftCategoryId.EMPTY; i < CraftCategoryId.Max; i++) {
 				newRecipeCategories.Add(i, new List<RecipeId>());
 			}
@@ -49,6 +51,9 @@ namespace RF5.RecipeMod.Recipe {
 			newRecipeCategories[newRecipe.categoryId].Add(newRecipe.id);
 
 			//additional checking for FarmTools
+			if(newRecipe.categoryId == CraftCategoryId.FarmTool) {
+				newFarmRecipeIds.Add(newRecipe.ResultItemId);
+			}
 
 			currentRecipeIndex++;
 		}

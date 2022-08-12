@@ -1,9 +1,6 @@
 ﻿using HarmonyLib;
 using RF5.RecipeMod.Recipe;
-using System.Collections.Generic;
 using System.Linq;
-using UnhollowerBaseLib;
-using UnityEngine;
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
@@ -19,14 +16,11 @@ namespace RF5.RecipeMod.Patch {
 		//	return true;
 		//}
 
-		private static void LogSize(CraftCategoryDataTable.CraftCategoryData[] craftData, string status) {
-			Plugin.log.LogInfo(status);
-			//string logString = status;
+		private static void LogSizeBefore(CraftCategoryDataTable.CraftCategoryData[] craftData) {
+			Plugin.log.LogInfo("Before pathcing:");
 			foreach (var (categorySize, i) in craftData.Select((v, k) => (v.RecipeIds.Length, (CraftCategoryId)k))) {
-				//status += $"\n\tCategory {i} contains {categorySize} recipes";
 				Plugin.log.LogInfo($"\tCategory {i} contains {categorySize} recipes");
 			}
-			//Plugin.log.LogInfo(logString);
 		}
 
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.CraftCategoryData), MethodType.Getter)]
@@ -36,18 +30,18 @@ namespace RF5.RecipeMod.Patch {
 			if (categoryPatched) {
 				return;
 			}
-			Plugin.log.LogInfo($"Patching Category Recipes");
+			Plugin.log.LogInfo($"Patching category recipes");
 			categoryPatched = true;
 
 			var loadedRecipes = RecipeLoader.Instance;
 
-			LogSize(__result.CraftCategoryDatas, "Before Patching:");
+			LogSizeBefore(__result.CraftCategoryDatas);
 
 			foreach (var categoryList in loadedRecipes.newRecipeCategories) {
 				__result.CraftCategoryDatas[(int)categoryList.Key].RecipeIds = __result.CraftCategoryDatas[(int)categoryList.Key].RecipeIds.Concat(categoryList.Value).ToArray();
 			}
 
-			LogSize(__result.CraftCategoryDatas, "After Patching:");
+			LogSizeBefore(__result.CraftCategoryDatas);
 
 			__instance._CraftCategoryDataTable = __result;
 

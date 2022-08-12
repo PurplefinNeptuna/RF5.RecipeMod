@@ -4,13 +4,6 @@ namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
 	internal class SVPatcher {
 		[HarmonyPatch(typeof(SV), nameof(SV.CreateUIRes))]
-		[HarmonyPrefix]
-		public static void SVCreateUIResPatch() {
-			RecipePatcher.recipePatched = false;
-			CategoryPatcher.categoryPatched = false;
-		}
-
-		[HarmonyPatch(typeof(SV), nameof(SV.CreateUIRes))]
 		[HarmonyPostfix]
 		public static void SVCreateUIResPostFix() {
 #if DEBUG

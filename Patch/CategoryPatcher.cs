@@ -16,12 +16,21 @@ namespace RF5.RecipeMod.Patch {
 		//	return true;
 		//}
 
+		#region LOGGING
 		private static void LogSizeBefore(CraftCategoryDataTable.CraftCategoryData[] craftData) {
 			Plugin.log.LogInfo("Before pathcing:");
 			foreach (var (categorySize, i) in craftData.Select((v, k) => (v.RecipeIds.Length, (CraftCategoryId)k))) {
 				Plugin.log.LogInfo($"\tCategory {i} contains {categorySize} recipes");
 			}
 		}
+
+		private static void LogSizeAfter(CraftCategoryDataTable.CraftCategoryData[] craftData) {
+			Plugin.log.LogInfo("After pathcing:");
+			foreach (var (categorySize, i) in craftData.Select((v, k) => (v.RecipeIds.Length, (CraftCategoryId)k))) {
+				Plugin.log.LogInfo($"\tCategory {i} contains {categorySize} recipes ({RecipeLoader.Instance.newRecipeCategories[i].Count} custom recipes)");
+			}
+		}
+		#endregion
 
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.CraftCategoryData), MethodType.Getter)]
 		[HarmonyPostfix]
@@ -41,7 +50,7 @@ namespace RF5.RecipeMod.Patch {
 				__result.CraftCategoryDatas[(int)categoryList.Key].RecipeIds = __result.CraftCategoryDatas[(int)categoryList.Key].RecipeIds.Concat(categoryList.Value).ToArray();
 			}
 
-			LogSizeBefore(__result.CraftCategoryDatas);
+			LogSizeAfter(__result.CraftCategoryDatas);
 
 			__instance._CraftCategoryDataTable = __result;
 

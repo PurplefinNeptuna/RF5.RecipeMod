@@ -28,7 +28,7 @@ namespace RF5.RecipeMod.Patch {
 
 			__result.RecipeDatas = __result.RecipeDatas.Concat(RecipeLoader.Instance.newRecipes).ToArray();
 
-			Plugin.log.LogInfo($"After patch total {__result.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custome recipes added)");
+			Plugin.log.LogInfo($"After patch total {__result.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custom recipes)");
 
 			__instance._RecipeData = __result;
 

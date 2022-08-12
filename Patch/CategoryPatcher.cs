@@ -18,16 +18,19 @@ namespace RF5.RecipeMod.Patch {
 
 		#region LOGGING
 		private static void LogSizeBefore(CraftCategoryDataTable.CraftCategoryData[] craftData) {
-			Plugin.log.LogInfo("Before pathcing:");
+			Plugin.log.LogInfo("Before patch:");
 			foreach (var (categorySize, i) in craftData.Select((v, k) => (v.RecipeIds.Length, (CraftCategoryId)k))) {
 				Plugin.log.LogInfo($"\tCategory {i} contains {categorySize} recipes");
 			}
 		}
 
 		private static void LogSizeAfter(CraftCategoryDataTable.CraftCategoryData[] craftData) {
-			Plugin.log.LogInfo("After pathcing:");
+			Plugin.log.LogInfo("After patch:");
 			foreach (var (categorySize, i) in craftData.Select((v, k) => (v.RecipeIds.Length, (CraftCategoryId)k))) {
-				Plugin.log.LogInfo($"\tCategory {i} contains {categorySize} recipes ({RecipeLoader.Instance.newRecipeCategories[i].Count} custom recipes)");
+				string logString = $"\tCategory {i} contains {categorySize} recipes";
+				var newRecipeCount = RecipeLoader.Instance.newRecipeCategories[i].Count;
+				if (newRecipeCount > 0) logString += $" ({newRecipeCount} custom recipes)";
+				Plugin.log.LogInfo(logString);
 			}
 		}
 		#endregion

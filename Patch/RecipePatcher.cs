@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RF5.RecipeMod.Recipe;
-using SaveData;
 using System.Linq;
 
 namespace RF5.RecipeMod.Patch {
@@ -9,10 +8,18 @@ namespace RF5.RecipeMod.Patch {
 		private static int patchedSize = 0;
 		public static bool recipePatched = false;
 
+		private static int farmPatchedSize = 0;
+		public static bool farmPatched = false;
+
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.RecipeData), MethodType.Getter)]
 		[HarmonyPostfix]
-		public static void AddRecipe(UIRes __instance, ref RecipeDataTableArray __result) {
-			var originalSize = __result.RecipeDatas.Length;
+		public static void RecipeDataPatch(UIRes __instance, ref RecipeDataTableArray __result) {
+			AddRecipe(__instance, ref __result);
+			FarmToSkillPatch();
+		}
+
+		private static void AddRecipe(UIRes uiRes, ref RecipeDataTableArray recipeTable) {
+			var originalSize = recipeTable.RecipeDatas.Length;
 			if (originalSize == patchedSize) {
 				return;
 			}
@@ -26,13 +33,41 @@ namespace RF5.RecipeMod.Patch {
 
 			Plugin.log.LogInfo($"Before patch total {originalSize} recipes");
 
-			__result.RecipeDatas = __result.RecipeDatas.Concat(RecipeLoader.Instance.newRecipes).ToArray();
+			recipeTable.RecipeDatas = recipeTable.RecipeDatas.Concat(RecipeLoader.Instance.newRecipes).ToArray();
 
-			Plugin.log.LogInfo($"After patch total {__result.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custom recipes)");
+			Plugin.log.LogInfo($"After patch total {recipeTable.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custom recipes)");
 
-			__instance._RecipeData = __result;
+			uiRes._RecipeData = recipeTable;
 
-			patchedSize = __result.RecipeDatas.Length;
+			patchedSize = recipeTable.RecipeDatas.Length;
+		}
+
+		private static void FarmToSkillPatch() {
+			var originalSize = CraftManager.FarmToolOutputItemIDtoSkillID.Count;
+			if (originalSize == farmPatchedSize) {
+				return;
+			}
+
+			if (farmPatched) {
+				Plugin.log.LogError($"Farm item recipe already patched. Length: {originalSize}, should be: {farmPatchedSize}");
+			}
+			farmPatched = true;
+			Plugin.log.LogInfo($"Patching farm item recipes");
+
+			Plugin.log.LogInfo($"Before patch farm total {originalSize} item recipes");
+
+			bool success = true;
+			foreach (var itemID in RecipeLoader.Instance.newFarmRecipeIds) {
+				if (!CraftManager.FarmToolOutputItemIDtoSkillID.ContainsKey(itemID)) {
+					success &= CraftManager.FarmToolOutputItemIDtoSkillID.TryAdd(itemID, Define.SkillID.SKILL_FARM);
+				}
+			}
+			if (!success) {
+				Plugin.log.LogError($"Farm recipe item patch failed");
+			}
+			Plugin.log.LogInfo($"After patch farm total {CraftManager.FarmToolOutputItemIDtoSkillID.Count} item recipes ({RecipeLoader.Instance.newFarmRecipeIds.Count} custom farm item recipes)");
+
+			farmPatchedSize = CraftManager.FarmToolOutputItemIDtoSkillID.Count;
 		}
 	}
 }

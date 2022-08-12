@@ -28,7 +28,6 @@ namespace RF5.RecipeMod {
 			Harmony.CreateAndPatchAll(typeof(SVPatcher));
 			Harmony.CreateAndPatchAll(typeof(RecipePatcher));
 			Harmony.CreateAndPatchAll(typeof(CategoryPatcher));
-			Harmony.CreateAndPatchAll(typeof(CraftManagerPatcher));
 			Harmony.CreateAndPatchAll(typeof(SaveDataPatcher));
 		}
 	}

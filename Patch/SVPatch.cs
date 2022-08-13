@@ -10,6 +10,13 @@ namespace RF5.RecipeMod.Patch {
 			Utils.DebugPrinter.PrintRecipes(SV.UIRes.RecipeData);
 			Utils.DebugPrinter.PrintCraftCategories(SV.UIRes.CraftCategoryData);
 #endif
+			//This forces recipe to patch early lol
+			if (SV.UIRes.RecipeData != null && SV.UIRes.CraftCategoryData != null) {
+				return;
+			}
+			else {
+				Plugin.log.LogError("Something wrong!");
+			}
 		}
 	}
 }

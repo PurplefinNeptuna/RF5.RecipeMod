@@ -4,7 +4,7 @@ using SaveData;
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
-	internal class SaveDataPatcher {
+	internal class SaveDataPatch {
 		[HarmonyPatch(typeof(RF5ItemFlagData), nameof(RF5ItemFlagData.CheckRecipeRelease))]
 		[HarmonyPrefix]
 		public static bool CheckRelease(RecipeRelease recipeId, ref bool __result) {

@@ -25,10 +25,10 @@ namespace RF5.RecipeMod {
 
 			RecipeLoader.Instance.LoadRecipes();
 
-			Harmony.CreateAndPatchAll(typeof(SVPatcher));
-			Harmony.CreateAndPatchAll(typeof(RecipePatcher));
-			Harmony.CreateAndPatchAll(typeof(CategoryPatcher));
-			Harmony.CreateAndPatchAll(typeof(SaveDataPatcher));
+			Harmony.CreateAndPatchAll(typeof(SVPatch));
+			Harmony.CreateAndPatchAll(typeof(RecipePatch));
+			Harmony.CreateAndPatchAll(typeof(CategoryPatch));
+			Harmony.CreateAndPatchAll(typeof(SaveDataPatch));
 		}
 	}
 }

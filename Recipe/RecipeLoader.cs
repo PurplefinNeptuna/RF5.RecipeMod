@@ -43,15 +43,15 @@ namespace RF5.RecipeMod.Recipe {
 			newRecipe.RpUse = 0;
 			newRecipe.SkillLv = 30;
 			newRecipe.SourceItems = new[] {
-						ItemID.Item_Kuzutetsu
-				};
+				ItemID.Item_Kuzutetsu
+			};
 
 			//add the recipe to collections
 			newRecipes.Add(newRecipe);
 			newRecipeCategories[newRecipe.categoryId].Add(newRecipe.id);
 
 			//additional checking for FarmTools
-			if(newRecipe.categoryId == CraftCategoryId.FarmTool) {
+			if (newRecipe.categoryId == CraftCategoryId.FarmTool) {
 				newFarmRecipeIds.Add(newRecipe.ResultItemId);
 			}
 

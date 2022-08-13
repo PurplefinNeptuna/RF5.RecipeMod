@@ -2,7 +2,7 @@
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
-	internal class SVPatcher {
+	internal class SVPatch {
 		[HarmonyPatch(typeof(SV), nameof(SV.CreateUIRes))]
 		[HarmonyPostfix]
 		public static void SVCreateUIResPostFix() {

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
-	internal class CategoryPatcher {
+	internal class CategoryPatch {
 		//private static List<int> patchedSize = new();
 		public static bool categoryPatched = false;
 

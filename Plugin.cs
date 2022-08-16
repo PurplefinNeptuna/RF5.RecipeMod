@@ -19,10 +19,13 @@ namespace RF5.RecipeMod {
 		internal static string FILEPATH = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 		public override void Load() {
-			log = Log;
+			log = Logger.CreateLogSource("RecipeMod");
 			// Plugin startup logic
 			log.LogInfo($"Plugin {GUID} is loaded!");
 
+#if DEBUG
+			RecipeLoader.Instance.CreateDebugRecipe();
+#endif
 			RecipeLoader.Instance.LoadRecipes();
 
 			Harmony.CreateAndPatchAll(typeof(SVPatch));

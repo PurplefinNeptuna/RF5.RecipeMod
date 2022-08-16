@@ -23,6 +23,11 @@ namespace RF5.RecipeMod.Utils {
 					sw.WriteLine(recipeString);
 				}
 			}
+
+			var jsonFileName = Path.Combine(Plugin.FILEPATH, $"{name}.json");
+
+			//File.WriteAllText(jsonFileName, JsonConvert.SerializeObject(recipeDataTableArray.RecipeDatas.ToArray()));
+			JSON.WriteToFile(jsonFileName, recipeDataTableArray.RecipeDatas.ToArray());
 		}
 
 		public static void PrintCraftCategories(CraftCategoryDataTable craftCategoryDataTable, string name = "CraftCategoryTable") {
@@ -40,6 +45,11 @@ namespace RF5.RecipeMod.Utils {
 					sw.WriteLine(categoryString);
 				}
 			}
+
+			var jsonFileName = Path.Combine(Plugin.FILEPATH, $"{name}.json");
+
+			//File.WriteAllText(jsonFileName, JsonConvert.SerializeObject(craftCategoryDataTable.CraftCategoryDatas.ToArray()));
+			JSON.WriteToFile(jsonFileName, craftCategoryDataTable.CraftCategoryDatas.ToArray());
 		}
 	}
 }

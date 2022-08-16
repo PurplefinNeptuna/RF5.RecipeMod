@@ -35,6 +35,7 @@ namespace RF5.RecipeMod.Utils {
 			public CustomSerializer() {
 				DefaultValueHandling = DefaultValueHandling.Ignore;
 				PreserveReferencesHandling = PreserveReferencesHandling.None;
+				MissingMemberHandling = MissingMemberHandling.Ignore;
 				ContractResolver = new CustomResolver();
 				Converters.Add(new StringEnumConverter { AllowIntegerValues = true });
 				Error += delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) {

@@ -50,7 +50,10 @@ Key|Requirement|Value|Example|Definition|Default Value
 `"SkillLevel"`|Optional|`int`|`25`|Used for RP usage|`5`
 `"SkillUnlockID"`|Optional|`SkillID` or `int`|`"SKILL_MIX"` or `20`|(Currently Unused)|`SKILL_FARM`
 
-The properties doesn't need to be in order, but Required properties must always exist.
+The properties doesn't need to be in order, but Required properties must always exist.  
+[List of CraftCategoryId values](https://github.com/SinsofSloth/RF5-global-metadata/blob/main/_no_namespace/CraftCategoryId.cs)  
+[List of ItemID values](https://docs.google.com/spreadsheets/d/1LFkOEVQuJ-x1Lkn64Lt8Z7NvbVyUgqHP794Ehw3wbts/edit#gid=920483090)  
+[List of RecipeRelease values](https://docs.google.com/spreadsheets/d/1LFkOEVQuJ-x1Lkn64Lt8Z7NvbVyUgqHP794Ehw3wbts/edit#gid=914955553)
 ### **Custom JSON file example**
 ```js
 [

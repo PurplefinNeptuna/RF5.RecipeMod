@@ -41,7 +41,7 @@ Also don't forget to remove any trailing commas.
 Basically, your file contain **an array of `CustomRecipe` objects**.
 ### **`CustomeRecipe` object**
 `CustomRecipe` contain these properties:
-Key|Requirement|Value|Example|Definition|Default Value (if not defined)
+Key|Requirement|Value|Example|Definition|Default Value
 ---|---|---|---|---|---
 `"CraftCategoryID"`|Required|`CraftCategoryId` or `int`|`"Drug"` or `8`|Recipe's category|None
 `"ResultItemID"`|Required|`ItemID` or `int`|`"Item_Kin"` or `2156`|Result item|None
@@ -72,7 +72,7 @@ The properties doesn't need to be in order, but Required properties must always 
 		"IngredientItemIDs": [
 			2156,
 			2156
-		],
+		]
 	},
 	{
 		"CraftCategoryID": 8,
@@ -80,10 +80,10 @@ The properties doesn't need to be in order, but Required properties must always 
 		"IngredientItemIDs": [
 			2152,
 			2152
-		],
+		]
 	}
 ]
 ```
-First recipe is recipe to create Gold using 2 Silvers, most value are using enum string.  
-Second recipe is recipe to create Platinum using 2 Gold, most value are using int.  
-Third recipe is recipe to create Bronze using 2 Iron, this recipe created with using only the required parameters.
+First recipe is recipe to create Gold using 2 Silvers, most values are enum string.  
+Second recipe is recipe to create Platinum using 2 Gold, all values are int.  
+Third recipe is recipe to create Bronze using 2 Iron, created with only the required parameters.

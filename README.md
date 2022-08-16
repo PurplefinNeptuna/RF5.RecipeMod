@@ -88,5 +88,5 @@ The properties doesn't need to be in order, but Required properties must always 
 ]
 ```
 First recipe is recipe to create Gold using 2 Silvers, most values are enum string.  
-Second recipe is recipe to create Platinum using 2 Gold, all values are int.  
-Third recipe is recipe to create Bronze using 2 Iron, created with only the required parameters.
+Second recipe is recipe to create Platinum using 2 Golds, all values are int.  
+Third recipe is recipe to create Bronze using 2 Irons, created with only the required parameters.

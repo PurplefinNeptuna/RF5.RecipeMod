@@ -1,0 +1,93 @@
+[size=6][b]Recipe Mod for Rune Factory 5[/b][/size]
+Rune Factory 5 BepInEx plugin for loading custom recipes.
+
+[size=5]Installation[/size]
+[list=1]
+[*]Install [url=https://github.com/Lyall/RF5Fix]RF5Fix mod[/url] (BepInEx included there).
+[*]Download this mod [url=https://github.com/PurplefinNeptuna/RF5.RecipeMod/releases]here.[/url]
+[*]Extract RF5.RecipeMod.zip file to [b][font=Courier New]<GameDirectory>\BepInEx\plugins[/font][/b].
+[*]([i]Recommended[/i]) Make folder for each plugins so it will be easier to manage plugins.  
+[/list]
+[img]https://user-images.githubusercontent.com/23467102/184843956-07f70c2f-2088-440f-ab0e-390f5e986a5d.png[/img]
+[img]https://user-images.githubusercontent.com/23467102/184843357-2c22a72c-cd37-40c8-b518-3afe6e1ea361.png[/img]
+
+[size=5]What this mod do[/size]
+Load custom recipes data (in JSON format) from [b][font=Courier New]Custom Recipes[/font][/b] folder.  
+This mod has 2 custom recipes files included
+- [b][font=Courier New]ClipAndMag.json[/font][/b] contains recipes for clipper and magnifying glass
+- [b][font=Courier New]LargeCrystals.json[/font][/b] contains recipes for all large crystals  
+[img]https://user-images.githubusercontent.com/23467102/184844622-b5fb636e-6818-4b39-8992-9680ac1af859.png[/img]
+[img]https://user-images.githubusercontent.com/23467102/184845039-88475772-538e-4ae8-9d11-b621b8040afb.png[/img]
+
+[size=5](Advanced) Create custom recipes files[/size]
+You can create your own custom recipes by creating new JSON file inside [b][font=Courier New]Custom Recipes[/font][/b] folder (e.g. [b][font=Courier New]MyCustomRecipes.json[/font][/b]).
+
+[size=4][b][b]JSON File Structure[/b][/b][/size]
+Inside your new JSON file:
+[code]
+[
+    {
+        //Recipe 1
+    },
+    {
+        //Recipe 2
+    },
+    {
+        //Recipe 3 and so on
+    }
+]
+[/code]
+Remember that JSON file doesn't support comments, it is used now just for visualization.
+Also don't forget to remove any trailing commas.  
+Basically, your file contain [b]an array of [font=Courier New]CustomRecipe[/font] objects[/b].
+
+[size=4][b][b][font=Courier New]CustomeRecipe[/font] object[/b][/b][/size]
+[b][font=Courier New]CustomRecipe[/font][/b] contain these properties:
+Key|Requirement|Value|Example|Definition|Default Value
+---|---|---|---|---|---
+[b][font=Courier New]"CraftCategoryID"[/font][/b]|Required|[b][font=Courier New]CraftCategoryId[/font][/b] or [b][font=Courier New]int[/font][/b]|[b][font=Courier New]"Drug"[/font][/b] or [b][font=Courier New]8[/font][/b]|Recipe's category|None
+[b][font=Courier New]"ResultItemID"[/font][/b]|Required|[b][font=Courier New]ItemID[/font][/b] or [b][font=Courier New]int[/font][/b]|[b][font=Courier New]"Item_Kin"[/font][/b] or [b][font=Courier New]2156[/font][/b]|Result item|None
+[b][font=Courier New]"IngredientItemIDs"[/font][/b]|Required|Array of [b][font=Courier New]ItemID[/font][/b] or [b][font=Courier New]int[/font][/b]|[b][font=Courier New]["Item_Gin", "Item_Gin"][/font][/b] or [b][font=Courier New][2155, 2155][/font][/b]|Item used for recipe, max 6 items|None
+[b][font=Courier New]"RecipeReleaseID"[/font][/b]|Optional|[b][font=Courier New]RecipeRelease[/font][/b] or [b][font=Courier New]int[/font][/b]|[b][font=Courier New]"Recipe_Drag_1_L"[/font][/b] or [b][font=Courier New]149[/font][/b]|Condition for recipe unlocks, recipe always unlocked if not defined|Internally set
+[b][font=Courier New]"SkillLevel"[/font][/b]|Optional|[b][font=Courier New]int[/font][/b]|[b][font=Courier New]25[/font][/b]|Used for RP usage|[b][font=Courier New]5[/font][/b]
+[b][font=Courier New]"SkillUnlockID"[/font][/b]|Optional|[b][font=Courier New]SkillID[/font][/b] or [b][font=Courier New]int[/font][/b]|[b][font=Courier New]"SKILL_MIX"[/font][/b] or [b][font=Courier New]20[/font][/b]|(Currently Unused)|[b][font=Courier New]SKILL_FARM[/font][/b]
+The properties doesn't need to be in order, but Required properties must always exist.  
+[url=https://github.com/SinsofSloth/RF5-global-metadata/blob/main/_no_namespace/CraftCategoryId.cs]List of CraftCategoryId values[/url]  
+[url=https://docs.google.com/spreadsheets/d/1LFkOEVQuJ-x1Lkn64Lt8Z7NvbVyUgqHP794Ehw3wbts/edit#gid=920483090]List of ItemID values[/url]  
+[url=https://docs.google.com/spreadsheets/d/1LFkOEVQuJ-x1Lkn64Lt8Z7NvbVyUgqHP794Ehw3wbts/edit#gid=914955553]List of RecipeRelease values[/url]
+
+[size=4][b][b]Custom JSON file example[/b][/b][/size]
+[code][
+    {
+        "CraftCategoryID": "Drug",
+        "ResultItemID": "Item_Kin",
+        "IngredientItemIDs": [
+            "Item_Gin",
+            "Item_Gin"
+        ],
+        "RecipeReleaseID": "Recipe_Drag_1_L",
+        "SkillLevel": 25,
+        "SkillUnlockID": "SKILL_MIX"
+    },
+    {
+        "CraftCategoryID": 8,
+        "ResultItemID": 2157,
+        "SkillLevel": 25,
+        "IngredientItemIDs": [
+            2156,
+            2156
+        ]
+    },
+    {
+        "CraftCategoryID": 8,
+        "ResultItemID": 2154,
+        "IngredientItemIDs": [
+            2152,
+            2152
+        ]
+    }
+]
+[/code]
+First recipe is recipe to create Gold using 2 Silvers, most values are enum string.  
+Second recipe is recipe to create Platinum using 2 Golds, all values are int.  
+Third recipe is recipe to create Bronze using 2 Irons, created with only the required parameters.

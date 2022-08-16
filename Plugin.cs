@@ -23,9 +23,6 @@ namespace RF5.RecipeMod {
 			log.LogInfo($"Plugin {GUID} is loaded!");
 			FILEPATH = Path.GetDirectoryName(IL2CPPChainloader.Instance.Plugins[GUID].Location);
 
-#if DEBUG
-			RecipeLoader.Instance.CreateDebugRecipe();
-#endif
 			RecipeLoader.Instance.LoadRecipes();
 
 			Harmony.CreateAndPatchAll(typeof(SVPatch));

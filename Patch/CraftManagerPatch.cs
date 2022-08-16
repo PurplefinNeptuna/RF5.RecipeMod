@@ -17,8 +17,6 @@ namespace RF5.RecipeMod.Patch {
 			farmPatched = true;
 			Plugin.log.LogInfo($"Patching farm item recipes");
 
-			Plugin.log.LogInfo($"Before patch farm total {originalSize} item recipes");
-
 			bool success = true;
 			foreach (var itemID in RecipeLoader.Instance.newFarmRecipeIds) {
 				if (!CraftManager.FarmToolOutputItemIDtoSkillID.ContainsKey(itemID)) {
@@ -28,7 +26,7 @@ namespace RF5.RecipeMod.Patch {
 			if (!success) {
 				Plugin.log.LogError($"Farm recipe item patch failed");
 			}
-			Plugin.log.LogInfo($"After patch farm total {CraftManager.FarmToolOutputItemIDtoSkillID.Count} item recipes ({RecipeLoader.Instance.newFarmRecipeIds.Count} custom farm item recipes)");
+			Plugin.log.LogInfo($"{CraftManager.FarmToolOutputItemIDtoSkillID.Count} farm item recipes loaded ({RecipeLoader.Instance.newFarmRecipeIds.Count} custom farm item recipes)");
 
 			farmPatchedSize = CraftManager.FarmToolOutputItemIDtoSkillID.Count;
 		}

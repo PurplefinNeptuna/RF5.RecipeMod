@@ -40,7 +40,7 @@ namespace RF5.RecipeMod.Recipe {
 			Directory.CreateDirectory(customRecipeFolder);
 		}
 
-		public void CreateDebugRecipe() {
+		public void CreateExampleRecipes() {
 			List<CustomRecipe> clipperAndMagnifier = new() {
 				new((RecipeId)663) {
 					CraftCategoryID = CraftCategoryId.FarmTool,
@@ -139,8 +139,13 @@ namespace RF5.RecipeMod.Recipe {
 
 		public void LoadRecipes() {
 			//list all json files
-			Plugin.log.LogInfo("Loading custom recipes");
 			List<string> fileList = Directory.GetFiles(customRecipeFolder, "*.json", SearchOption.AllDirectories).ToList();
+			if(fileList.Count <= 0) {
+				Plugin.log.LogInfo("No recipes found, creating example recipes");
+				CreateExampleRecipes();
+				fileList = Directory.GetFiles(customRecipeFolder, "*.json", SearchOption.AllDirectories).ToList();
+			}
+			Plugin.log.LogInfo("Loading custom recipes");
 
 			//read the array in each files
 			List<CustomRecipe> customRecipes = new();

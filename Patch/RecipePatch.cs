@@ -28,11 +28,9 @@ namespace RF5.RecipeMod.Patch {
 			Plugin.log.LogInfo($"Patching recipes");
 			recipePatched = true;
 
-			Plugin.log.LogInfo($"Before patch total {originalSize} recipes");
-
 			recipeTable.RecipeDatas = recipeTable.RecipeDatas.Concat(RecipeLoader.Instance.newRecipes).ToArray();
 
-			Plugin.log.LogInfo($"After patch total {recipeTable.RecipeDatas.Length} recipes ({RecipeLoader.Instance.newRecipes.Count} custom recipes)");
+			Plugin.log.LogInfo($"Total {recipeTable.RecipeDatas.Length} recipes loaded ({RecipeLoader.Instance.newRecipes.Count} custom recipes)");
 
 			uiRes._RecipeData = recipeTable;
 

@@ -34,11 +34,7 @@ namespace RF5.RecipeMod.Recipe {
 		}
 
 		[JsonConstructor]
-		public CustomRecipe(CraftCategoryId craftCategoryID, ItemID resultItemID, List<ItemID> ingredientItemIDs) {
-			this.CraftCategoryID = craftCategoryID;
-			this.ResultItemID = resultItemID;
-			this.IngredientItemIDs = ingredientItemIDs;
-
+		public CustomRecipe() {
 			RecipeLoader loader = RecipeLoader.Instance;
 			RecipeID = (RecipeId)loader.currentRecipeIndex;
 			if (RecipeReleaseID == RecipeRelease.Relase_EMPTY) {

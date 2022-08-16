@@ -5,7 +5,6 @@ using HarmonyLib;
 using RF5.RecipeMod.Patch;
 using RF5.RecipeMod.Recipe;
 using System.IO;
-using System.Reflection;
 
 namespace RF5.RecipeMod {
 	[BepInPlugin(GUID, MODNAME, VERSION)]
@@ -16,12 +15,13 @@ namespace RF5.RecipeMod {
 		public const string VERSION = "1.0.0";
 
 		internal static ManualLogSource log;
-		internal static string FILEPATH = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+		internal static string FILEPATH;
 
 		public override void Load() {
 			log = Logger.CreateLogSource("RecipeMod");
 			// Plugin startup logic
 			log.LogInfo($"Plugin {GUID} is loaded!");
+			FILEPATH = Path.GetDirectoryName(IL2CPPChainloader.Instance.Plugins[GUID].Location);
 
 #if DEBUG
 			RecipeLoader.Instance.CreateDebugRecipe();

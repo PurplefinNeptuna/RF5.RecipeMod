@@ -1,6 +1,7 @@
 ﻿using RF5.RecipeMod.Utils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace RF5.RecipeMod.Recipe {
 	internal class RecipeLoader {
@@ -40,25 +41,29 @@ namespace RF5.RecipeMod.Recipe {
 		}
 
 		public void CreateDebugRecipe() {
-			List<CustomRecipe> customRecipes = new() {
+			List<CustomRecipe> clipperAndMagnifier = new() {
 				new((RecipeId)663) {
 					CraftCategoryID = CraftCategoryId.FarmTool,
-					ResultItemID = ItemID.Item_Mushimegane,
-					SkillLevel = 40,
+					ResultItemID = ItemID.Item_Kegaribasami,
+					SkillLevel = 10,
 					IngredientItemIDs = new() {
-						ItemID.Item_Kuzutetsu,
-						ItemID.Item_Sugoikuzutetsu,
-					}
+						ItemID.Item_Tetsu,
+						ItemID.Item_Tetsu,
+					},
 				},
 				new((RecipeId)664) {
 					CraftCategoryID = CraftCategoryId.FarmTool,
-					ResultItemID = ItemID.Item_Kegaribasami,
-					SkillLevel = 40,
+					ResultItemID = ItemID.Item_Mushimegane,
+					SkillLevel = 10,
 					IngredientItemIDs = new() {
-						ItemID.Item_Tetsu,
-						ItemID.Item_Tetsu,
-					}
+						ItemID.Item_Kuzutetsu,
+						ItemID.Item_Sugoikuzutetsu,
+					},
+					RecipeReleaseID = RecipeRelease.Recipe_Farm_1_L,
 				},
+			};
+
+			List<CustomRecipe> largeCrystals = new() {
 				new((RecipeId)665) {
 					CraftCategoryID = CraftCategoryId.FarmTool,
 					ResultItemID = ItemID.Item_Cry_tuchi,
@@ -125,36 +130,41 @@ namespace RF5.RecipeMod.Recipe {
 				}
 			};
 
-			var jsonFileName = Path.Combine(customRecipeFolder, $"examples.json");
-			//File.WriteAllText(jsonFileName, JsonConvert.SerializeObject(customRecipes));
-			JSON.WriteToFile(jsonFileName, customRecipes);
+			var clipperName = Path.Combine(customRecipeFolder, "ClipAndMag.json");
+			var crystalName = Path.Combine(customRecipeFolder, "LargeCrystals.json");
+
+			JSON.WriteToFile(clipperName, clipperAndMagnifier);
+			JSON.WriteToFile(crystalName, largeCrystals);
 		}
 
 		public void LoadRecipes() {
-			currentRecipeIndex = startRecipeIndex;
+			//list all json files
+			Plugin.log.LogInfo("Loading custom recipes");
+			List<string> fileList = Directory.GetFiles(customRecipeFolder, "*.json", SearchOption.AllDirectories).ToList();
 
-			//new recipe here, could use some kind of file reader later
-			RecipeDataTableArray.RecipeDataTable newRecipe = new();
-			newRecipe.categoryId = CraftCategoryId.FarmTool;
-			newRecipe.id = (RecipeId)currentRecipeIndex;
-			newRecipe.RecipeRelease = (RecipeRelease)currentRecipeIndex;
-			newRecipe.ResultItemId = ItemID.Item_Mushimegane;
-			newRecipe.RpUse = 0;
-			newRecipe.SkillLv = 30;
-			newRecipe.SourceItems = new[] {
-				ItemID.Item_Kuzutetsu
-			};
+			//read the array in each files
+			List<CustomRecipe> customRecipes = new();
+			foreach (string file in fileList) {
+				List<CustomRecipe> newCustomRecipes = JSON.ReadFromFile<List<CustomRecipe>>(file);
 
-			//add the recipe to collections
-			newRecipes.Add(newRecipe);
-			newRecipeCategories[newRecipe.categoryId].Add(newRecipe.id);
+				Plugin.log.LogInfo($"Got {newCustomRecipes.Count} new recipes from {Path.GetFileName(file)}");
 
-			//additional checking for FarmTools
-			if (newRecipe.categoryId == CraftCategoryId.FarmTool) {
-				newFarmRecipeIds.Add(newRecipe.ResultItemId);
+				customRecipes.AddRange(newCustomRecipes);
 			}
 
-			currentRecipeIndex++;
+			foreach (CustomRecipe customRecipe in customRecipes) {
+				//new recipe here
+				var newRecipe = (RecipeDataTableArray.RecipeDataTable)customRecipe;
+
+				//add the recipe to collections
+				newRecipes.Add(newRecipe);
+				newRecipeCategories[newRecipe.categoryId].Add(newRecipe.id);
+
+				//additional checking for FarmTools
+				if (newRecipe.categoryId == CraftCategoryId.FarmTool) {
+					newFarmRecipeIds.Add(newRecipe.ResultItemId);
+				}
+			}
 		}
 	}
 }

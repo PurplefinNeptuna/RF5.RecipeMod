@@ -46,5 +46,18 @@ namespace RF5.RecipeMod.Recipe {
 			}
 			loader.currentRecipeIndex++;
 		}
+
+		public static explicit operator RecipeDataTableArray.RecipeDataTable(CustomRecipe recipe) {
+			var recipeData = new RecipeDataTableArray.RecipeDataTable {
+				categoryId = recipe.CraftCategoryID,
+				id = recipe.RecipeID,
+				RecipeRelease = recipe.RecipeReleaseID,
+				ResultItemId = recipe.ResultItemID,
+				RpUse = 0,
+				SkillLv = recipe.SkillLevel,
+				SourceItems = recipe.IngredientItemIDs.ToArray()
+			};
+			return recipeData;
+		}
 	}
 }

@@ -5,16 +5,7 @@ using System.Linq;
 namespace RF5.RecipeMod.Patch {
 	[HarmonyPatch]
 	internal class CategoryPatch {
-		//private static List<int> patchedSize = new();
 		public static bool categoryPatched = false;
-
-		//public static bool SameSize(List<int> origSize, List<int> patchSize) {
-		//	if (origSize.Count != patchSize.Count) return false;
-		//	for (int i = 0; i < origSize.Count; i++) {
-		//		if (origSize[i] != patchSize[i]) return false;
-		//	}
-		//	return true;
-		//}
 
 		#region LOGGING
 		private static void LogSizeBefore(CraftCategoryDataTable.CraftCategoryData[] craftData) {
@@ -38,7 +29,6 @@ namespace RF5.RecipeMod.Patch {
 		[HarmonyPatch(typeof(UIRes), nameof(UIRes.CraftCategoryData), MethodType.Getter)]
 		[HarmonyPostfix]
 		public static void AddCategoryRecipe(UIRes __instance, ref CraftCategoryDataTable __result) {
-			//if (SameSize(originalSize, patchedSize)) {
 			if (categoryPatched) {
 				return;
 			}
@@ -56,8 +46,6 @@ namespace RF5.RecipeMod.Patch {
 			LogSizeAfter(__result.CraftCategoryDatas);
 
 			__instance._CraftCategoryDataTable = __result;
-
-			//patchedSize = new(newSize);
 		}
 	}
 }

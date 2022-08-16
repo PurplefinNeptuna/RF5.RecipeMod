@@ -9,7 +9,6 @@ namespace RF5.RecipeMod.Patch {
 		[HarmonyPrefix]
 		public static bool CheckRelease(RecipeRelease recipeId, ref bool __result) {
 			if ((int)recipeId >= RecipeLoader.Instance.startRecipeIndex) {
-				Plugin.log.LogInfo($"Skipped check for {(int)recipeId}");
 				__result = true;
 				return false;
 			}
@@ -20,7 +19,6 @@ namespace RF5.RecipeMod.Patch {
 		[HarmonyPrefix]
 		public static bool SetRelease(RecipeRelease recipeId) {
 			if ((int)recipeId >= RecipeLoader.Instance.startRecipeIndex) {
-				Plugin.log.LogInfo($"Skipped set for {(int)recipeId}");
 				return false;
 			}
 			return true;

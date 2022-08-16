@@ -1,3 +1,2 @@
-This is kinda hard for me lol.
-
-I'll try to improve this.
+# Recipe Mod for Rune Factory 5
+TODO: Readme

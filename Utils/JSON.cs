@@ -22,12 +22,25 @@ namespace RF5.RecipeMod.Utils {
 			}
 		}
 
+		public static T ReadFromFile<T>(string path) {
+			using (var fs = File.Open(path, FileMode.Open))
+			using (var sr = new StreamReader(fs))
+			using (var jtr = new JsonTextReader(sr)) {
+				var serializer = new CustomSerializer();
+				return (T)serializer.Deserialize(jtr, typeof(T));
+			}
+		}
+
 		internal class CustomSerializer : JsonSerializer {
 			public CustomSerializer() {
-				DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate;
+				DefaultValueHandling = DefaultValueHandling.Ignore;
 				PreserveReferencesHandling = PreserveReferencesHandling.None;
 				ContractResolver = new CustomResolver();
 				Converters.Add(new StringEnumConverter { AllowIntegerValues = true });
+				Error += delegate (object sender, Newtonsoft.Json.Serialization.ErrorEventArgs args) {
+					Plugin.log.LogError(args.ErrorContext.Error.Message);
+					args.ErrorContext.Handled = true;
+				};
 			}
 		}
 

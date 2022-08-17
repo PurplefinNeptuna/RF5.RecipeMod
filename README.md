@@ -20,24 +20,52 @@ This mod has 2 custom recipes files included
 ![LargeCystals](https://user-images.githubusercontent.com/23467102/184845039-88475772-538e-4ae8-9d11-b621b8040afb.png)
 
 ## (Advanced) Create custom recipes files
-You can create your own custom recipes by creating new JSON file inside `Custom Recipes` folder (e.g. `MyCustomRecipes.json`).
+You can create your own custom recipes by creating new JSON file inside `Custom Recipes` folder (e.g. `MyCustomRecipes.json`).  
+JSON.Net is lenient in JSON file specs, **you can have comments and trailing commas in the file**.
 ### **JSON File Structure**
-Inside your new JSON file:
+JSON file with some explanations:
 ```js
 [
 	{
-		//Recipe 1
-	},
-	{
-		//Recipe 2
-	},
-	{
-		//Recipe 3 and so on
-	}
+		//Start of recipe block
+
+		//craft category (where you can craft them)
+		"CraftCategoryID": "Drug", //or you can write it as 8 (number)
+
+		//result item id
+		"ResultItemID": 2156, //also can be written as "Item_Kin" (enum, with double quotes)
+
+		//ingredient for the recipe, you can put maximum 6 item here
+		//this field also can be written in 1 line to "IngredientItemIDs": [2155, 2155]
+		"IngredientItemIDs": [
+			"Item_Gin",
+			"Item_Gin",
+		],
+
+		//when the recipe released (unlocked)
+		//this field is optional, if not written, the recipe always unlocked
+		"RecipeReleaseID": "Recipe_Drag_1_L",
+
+		//skill level needed to craft without RP penalties
+		//optional field, default to 5 if not writeen
+		//usually the RP needed will be SkillLevel * 2
+		"SkillLevel": 25,
+
+		//skill needed aside from craft/smith/mix/cook skills
+		//currently unused
+		//you can also not write this, default to "SKILL_FARM"
+		//as it only needed for farm tool crafting
+		"SkillUnlockID": "SKILL_MIX",
+    },
+    {
+		//another recipe block
+    },
+    {
+		//also another recipe block and so on
+    },
 ]
 ```
-Remember that JSON file doesn't support comments, it is used now just for visualization.
-Also don't forget to remove any trailing commas.  
+
 Basically, your file contain **an array of `CustomRecipe` objects**.
 ### **`CustomeRecipe` object**
 `CustomRecipe` contain these properties:

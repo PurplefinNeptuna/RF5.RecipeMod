@@ -135,6 +135,12 @@ namespace RF5.RecipeMod.Recipe {
 
 			JSON.WriteToFile(clipperName, clipperAndMagnifier);
 			JSON.WriteToFile(crystalName, largeCrystals);
+
+			var clipperToml = Path.Combine(customRecipeFolder, "ClipAndMag.toml");
+			var crystalToml = Path.Combine(customRecipeFolder, "LargeCrystals.toml");
+
+			TOML.WriteToFile(clipperToml, new CustomRecipeList(clipperAndMagnifier));
+			TOML.WriteToFile(crystalToml, new CustomRecipeList(largeCrystals));
 		}
 
 		public void LoadRecipes() {

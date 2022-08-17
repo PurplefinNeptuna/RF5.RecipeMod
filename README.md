@@ -56,13 +56,13 @@ JSON file with some explanations:
 		//you can also not write this, default to "SKILL_FARM"
 		//as it only needed for farm tool crafting
 		"SkillUnlockID": "SKILL_MIX",
-    },
-    {
+	},
+	{
 		//another recipe block
-    },
-    {
+	},
+	{
 		//also another recipe block and so on
-    },
+	},
 ]
 ```
 
